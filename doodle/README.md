@@ -1,5 +1,7 @@
 # Doodle
 
+Video demo: https://www.youtube.com/watch?v=3y3eY9DFZMQ
+
 ## Client
 
 Browser. Javascript. HTML.
