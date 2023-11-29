@@ -1,12 +1,19 @@
-# Dockerfile for running the doodle server (and serving the client code)
-# Start with ubuntu 22.04
-FROM ubuntu:22.04
+FROM nvidia/cuda:12.2.2-devel-ubuntu22.04 as cuda-pip-torch
 
-# Install python3 and pip3
-RUN apt-get update && apt-get install -y python3 python3-pip
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-pip \
+    python3-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
+# Upgrade pip
+RUN python3 -m pip install --upgrade pip
 
-# Run http.server to serve the client code, which will be mounted to /app/client
-# We have to specify the client directory in the command
-CMD python3 -m http.server 8001 --directory /app/client
+# Install PyTorch compatible with CUDA 12.3 (adjust the version as needed)
+RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu123
+
+RUN pip install flask diffusers transformers scipy
+
+WORKDIR /app/server/
+
+CMD python3 server.py
