@@ -1,6 +1,9 @@
 # Doodle
 
-Video demo: https://www.youtube.com/watch?v=3y3eY9DFZMQ
+Video demos:
+
+- https://www.youtube.com/watch?v=3y3eY9DFZMQ
+- https://www.youtube.com/watch?v=QH9Zqv0iC6I
 
 ## Client
 
