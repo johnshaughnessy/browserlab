@@ -2,13 +2,14 @@
 
 const promptInput = document.getElementById("prompt-input");
 const strengthInput = document.getElementById("strength-input");
+const guidanceScaleInput = document.getElementById("guidance-scale-input");
 const drawingCanvas = document.getElementById("drawing-canvas");
 const displayCanvas = document.getElementById("display-canvas");
 const ctxDraw = drawingCanvas.getContext("2d");
 const ctxDisplay = displayCanvas.getContext("2d");
 
 let isDrawing = false;
-let cursorSize = 10;
+let cursorSize = 30;
 let cursorX = 0;
 let cursorY = 0;
 
@@ -98,6 +99,15 @@ async function sync() {
       console.log(data.strength);
     });
 
+  await fetch("/doodle/guidance_scale", {
+    method: "POST",
+    body: guidanceScaleInput.value,
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data.guidance_scale);
+    });
+
   // POST to /doodle/image
   // The API will return an image for us to display
   // on the display canvas
@@ -118,16 +128,20 @@ async function sync() {
     //document.body.appendChild(img);
   });
 
-  syncTimeout = setTimeout(sync, 1);
+  if (isSyncEnabled) {
+    syncTimeout = setTimeout(sync, 1);
+  }
 }
 
 document.getElementById("enable-sync-button").addEventListener("click", () => {
   clearTimeout(syncTimeout);
+  isSyncEnabled = true;
   sync();
 });
 
 document.getElementById("disable-sync-button").addEventListener("click", () => {
   clearTimeout(syncTimeout);
+  isSyncEnabled = false;
 });
 
 document

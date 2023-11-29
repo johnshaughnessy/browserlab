@@ -13,6 +13,7 @@ RUN python3 -m pip install --upgrade pip
 RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu123
 
 RUN pip install flask diffusers transformers scipy
+RUN pip install accelerate
 
 WORKDIR /app/server/
 

@@ -1,4 +1,5 @@
 from diffusers import StableDiffusionPipeline
+from diffusers import StableDiffusionImg2ImgPipeline
 from doodle_diffusion import process_image_with_prompt
 from flask import Flask, request, send_from_directory, jsonify
 import torch
@@ -20,19 +21,34 @@ check_cuda()
 
 app = Flask(__name__, static_folder='../client')
 
-pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", use_auth_token=os.getenv('HF_TOKEN'))
-pipe.to("cuda")
+# model_id_or_path = "runwayml/stable-diffusion-v1-5"
+model_id_or_path = "CompVis/stable-diffusion-v1-4"
+pipe = StableDiffusionImg2ImgPipeline.from_pretrained(model_id_or_path, torch_dtype=torch.float16)
+pipe = pipe.to("cuda")
+
+# pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", use_auth_token=os.getenv('HF_TOKEN'))
+# pipe.to("cuda")
 
 # Global variable to store the prompt
 doodle_prompt = ""
 doodle_strength = 1.75
+doodle_guidance_scale = 5
 
 @app.route('/doodle/strength', methods=['POST'])
 def set_strength():
     global doodle_strength
-    doodle_strength = request.data.decode('utf-8')
+    # Parse doodle_strength as a float, or set it to 1
+    doodle_strength = float(request.data.decode('utf-8')) or 1
     print("We got strength:", doodle_strength)
     return jsonify({"strength": doodle_strength})
+
+@app.route('/doodle/guidance_scale', methods=['POST'])
+def set_guidance_scale():
+    global doodle_guidance_scale
+    # Parse doodle_guidance_scale as a float, or set it to 5
+    doodle_guidance_scale = float(request.data.decode('utf-8')) or 5
+    print("We got guidance_scale:", doodle_guidance_scale)
+    return jsonify({"guidance_scale": doodle_guidance_scale})
 
 @app.route('/doodle/prompt', methods=['POST'])
 def set_prompt():
@@ -59,7 +75,7 @@ def get_image():
         image_data = base64.b64decode(image_data)
 
     # Call the process_image_with_prompt function
-    processed_image_data = process_image_with_prompt(pipe, image_data, doodle_prompt, doodle_strength)
+    processed_image_data = process_image_with_prompt(pipe, image_data, doodle_prompt, doodle_strength, doodle_guidance_scale)
 
     # Return the processed image
     response = app.response_class(processed_image_data, mimetype='image/png')
