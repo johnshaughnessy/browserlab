@@ -1,5 +1,9 @@
 # Doodle
 
+A simple doodling app running stable diffusion inference.
+
+![screenshot](screenshot.png)
+
 Video demos:
 
 - https://www.youtube.com/watch?v=3y3eY9DFZMQ
