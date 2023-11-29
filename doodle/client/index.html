@@ -9,9 +9,14 @@
 <body>
     <!-- Simple text input for writing a prompt -->
     <input type="text" id="prompt-input" placeholder="Enter a prompt" />
-    <button id="clear-button">Clear</button>
+    <button id="clear-drawing-button">Clear</button>
     <button id="enable-sync-button">Enable sync</button>
     <button id="disable-sync-button">Disable sync</button>
+    <!-- Color Palette buttons to choose pen color-->
+    <div id="color-swatches" style="display:flex">
+    </div>
+
+
     <div style="display:flex">
         <canvas id="drawing-canvas" height="512px" width="512px"></canvas>
         <canvas id="display-canvas" height="512px" width="512px"></canvas>

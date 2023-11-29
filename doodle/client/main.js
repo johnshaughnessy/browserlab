@@ -23,6 +23,7 @@ function startDrawing(e) {
   prevCursorY = cursorY;
 
   // Draw a circle at the cursor position
+  ctxDraw.fillStyle = penColor;
   ctxDraw.beginPath();
   ctxDraw.arc(cursorX, cursorY, cursorSize / 2, 0, 2 * Math.PI);
   ctxDraw.fill();
@@ -40,8 +41,10 @@ function onMouseMove(e) {
     cursorX = e.clientX - drawingCanvas.offsetLeft;
     cursorY = e.clientY - drawingCanvas.offsetTop;
 
-    ctxDraw.beginPath();
+    // Use the pen color and cursor size to draw a line
+    ctxDraw.strokeStyle = penColor;
     ctxDraw.lineWidth = cursorSize;
+    ctxDraw.beginPath();
     ctxDraw.moveTo(prevCursorX, prevCursorY);
     ctxDraw.lineTo(cursorX, cursorY);
     ctxDraw.stroke();
@@ -115,4 +118,111 @@ document.getElementById("enable-sync-button").addEventListener("click", () => {
 
 document.getElementById("disable-sync-button").addEventListener("click", () => {
   clearTimeout(syncTimeout);
+});
+
+document
+  .getElementById("clear-drawing-button")
+  .addEventListener("click", () => {
+    ctxDraw.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+  });
+
+const colors = [
+  "#ff0000", //(Red)
+  "#ff2900",
+  "#ff5300",
+  "#ff7c00",
+  "#ffa600",
+
+  "#ffa600", //(Orange)
+  "#ffbc00",
+  "#ffd200",
+  "#ffe900",
+  "#ffff00",
+
+  "#ffff00", //(Yellow)
+  "#bfdf00",
+  "#80bf00",
+  "#409f00",
+  "#008000",
+
+  "#008000", //(Green)
+  "#006040",
+  "#004080",
+  "#0020bf",
+  "#0000ff",
+
+  "#0000ff", //(Blue)
+  "#2000df",
+  "#4000bf",
+  "#60009f",
+  "#800080",
+
+  "#800080", //(Violet)
+  "#9f409f",
+  "#bf80bf",
+  "#dfbfdf",
+  "#ffffff", //(White/Gray/Black)
+
+  "#000000", // (Black)
+  "#400000", // (Dark Red)
+  "#800000", // (Medium Red)
+  "#bf0000", // (Bright Red)
+  "#ff0000", // (Vibrant Red)
+
+  "#000000", // (Black)
+  "#402900", // (Dark Orange)
+  "#805300", // (Medium Orange)
+  "#bf7c00", // (Bright Orange)
+  "#ffa600", // (Vibrant Orange)
+
+  "#000000", // (Black)
+  "#404000", // (Dark Yellow)
+  "#808000", // (Medium Yellow)
+  "#bfbf00", // (Bright Yellow)
+  "#ffff00", // (Vibrant Yellow)
+
+  "#000000", // (Black)
+  "#004000", // (Dark Green)
+  "#008000", // (Medium Green)
+  "#00bf00", // (Bright Green)
+  "#00ff00", // (Vibrant Green)
+
+  "#000000", // (Black)
+  "#000040", // (Dark Blue)
+  "#000080", // (Medium Blue)
+  "#0000bf", // (Bright Blue)
+  "#0000ff", // (Vibrant Blue)
+
+  "#000000", // (Black)
+  "#200020", // (Dark Violet)
+  "#400040", // (Medium Violet)
+  "#600060", // (Bright Violet)
+  "#800080", // (Vibrant Violet)
+
+  "#000000", // (Black)
+  "#404040", // (Dark Gray)
+  "#808080", // (Medium Gray)
+  "#bfbfbf", // (Light Gray)
+  "#ffffff", // (White)
+];
+
+let penColor = "#000000";
+const colorSwatches = document.getElementById("color-swatches");
+
+colors.forEach((color) => {
+  // For each color, create a small swatch/button that sets the pen color
+  const swatch = document.createElement("button");
+  swatch.style.backgroundColor = color;
+  swatch.style.width = "20px";
+  swatch.style.height = "20px";
+  swatch.style.border = "none";
+  swatch.style.margin = "2px";
+  swatch.style.padding = "0px";
+  swatch.style.cursor = "pointer";
+  swatch.addEventListener("click", () => {
+    penColor = color;
+    ctxDraw.fillStyle = penColor;
+    console.log("Pen color set to " + penColor);
+  });
+  colorSwatches.appendChild(swatch);
 });
