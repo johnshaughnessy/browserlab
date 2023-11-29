@@ -25,6 +25,14 @@ pipe.to("cuda")
 
 # Global variable to store the prompt
 doodle_prompt = ""
+doodle_strength = 1.75
+
+@app.route('/doodle/strength', methods=['POST'])
+def set_strength():
+    global doodle_strength
+    doodle_strength = request.data.decode('utf-8')
+    print("We got strength:", doodle_strength)
+    return jsonify({"strength": doodle_strength})
 
 @app.route('/doodle/prompt', methods=['POST'])
 def set_prompt():
@@ -51,7 +59,7 @@ def get_image():
         image_data = base64.b64decode(image_data)
 
     # Call the process_image_with_prompt function
-    processed_image_data = process_image_with_prompt(pipe, image_data, doodle_prompt)
+    processed_image_data = process_image_with_prompt(pipe, image_data, doodle_prompt, doodle_strength)
 
     # Return the processed image
     response = app.response_class(processed_image_data, mimetype='image/png')

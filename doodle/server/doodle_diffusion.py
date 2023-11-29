@@ -3,7 +3,7 @@ from PIL import Image
 import io
 import os
 
-def process_image_with_prompt(pipe, image_data, prompt):
+def process_image_with_prompt(pipe, image_data, prompt, strength):
     """
     Process the given image and prompt using Stable Diffusion pipeline.
 
@@ -20,7 +20,7 @@ def process_image_with_prompt(pipe, image_data, prompt):
     print("Loaded the image! :D")
 
     # Process the image with the provided prompt
-    processed_image = pipe(prompt=prompt, init_image=image, strength=1.75).images[0]
+    processed_image = pipe(prompt=prompt, init_image=image, strength=strength).images[0]
 
     print("Processed the image! :D")
 

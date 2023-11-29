@@ -7,13 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <!-- Simple text input for writing a prompt -->
-    <input type="text" id="prompt-input" placeholder="Enter a prompt" />
-    <button id="clear-drawing-button">Clear</button>
-    <button id="enable-sync-button">Enable sync</button>
-    <button id="disable-sync-button">Disable sync</button>
-    <!-- Color Palette buttons to choose pen color-->
-    <div id="color-swatches" style="display:flex">
+
+    <div style="display:flex; align-items: center;">
+      <!-- Simple text input for writing a prompt -->
+      <input type="text" id="prompt-input" placeholder="Enter a prompt" />
+      <!-- Simple numerical input for setting strength -->
+      <label for="strength-input">Strength</label>
+      <input type="number" id="strength-input" value="1" min="0" max="10" />
+      <button id="clear-drawing-button">Clear</button>
+      <button id="enable-sync-button">Enable sync</button>
+      <button id="disable-sync-button">Disable sync</button>
+      <div id="color-swatches" style="display:flex; flex-wrap:wrap; max-width: 200px;">
+      </div>
     </div>
 
 

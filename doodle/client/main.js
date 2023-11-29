@@ -1,6 +1,7 @@
 // Wait for dom to load, if it hasn't already
 
 const promptInput = document.getElementById("prompt-input");
+const strengthInput = document.getElementById("strength-input");
 const drawingCanvas = document.getElementById("drawing-canvas");
 const displayCanvas = document.getElementById("display-canvas");
 const ctxDraw = drawingCanvas.getContext("2d");
@@ -86,6 +87,15 @@ async function sync() {
       // Display the prompt on the display canvas
       ctxDisplay.font = "20px sans-serif";
       ctxDisplay.fillText(data.prompt, 10, 20);
+    });
+
+  await fetch("/doodle/strength", {
+    method: "POST",
+    body: strengthInput.value,
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data.strength);
     });
 
   // POST to /doodle/image
