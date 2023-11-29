@@ -68,6 +68,7 @@ displayCanvas.style.border = "1px solid black";
 
 document.addEventListener("blur", stopDrawing);
 
+let syncTimeout = null;
 async function sync() {
   const img = new Image();
   img.src = drawingCanvas.toDataURL();
@@ -103,6 +104,15 @@ async function sync() {
     // and we can draw it to the canvas
     //document.body.appendChild(img);
   });
+
+  syncTimeout = setTimeout(sync, 1);
 }
 
-document.getElementById("sync-button").addEventListener("click", sync);
+document.getElementById("enable-sync-button").addEventListener("click", () => {
+  clearTimeout(syncTimeout);
+  sync();
+});
+
+document.getElementById("disable-sync-button").addEventListener("click", () => {
+  clearTimeout(syncTimeout);
+});
