@@ -1,6 +1,13 @@
 # Chat
 
-GPU-accelerated chat interface.
+A simple GPU-accelerated chat interface.
+
+## Setup
+
+0. Put a hugging face access token into a file called `token` so that the server can download an LLM.
+1. Run `./init.sh`.
+2. Run `./run.sh`.
+3. Open [http://localhost:8002](http://localhost:8002).
 
 ## Client
 
