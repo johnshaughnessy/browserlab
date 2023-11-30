@@ -84,11 +84,6 @@ def get_image():
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_client(path):
-    print("Hello, world!")
-
-
-    print("loaded the model.")
-
     if path != "" and os.path.exists(app.static_folder + '/' + path):
         return send_from_directory(app.static_folder, path)
     else:
