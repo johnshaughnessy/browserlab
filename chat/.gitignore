@@ -1,3 +1,0 @@
-huggingface-cache/*
-!huggingface-cache/.gitkeep
-token
