@@ -250,3 +250,30 @@ colors.forEach((color) => {
   });
   colorSwatches.appendChild(swatch);
 });
+
+const filePicker = document.createElement("input");
+filePicker.type = "file";
+filePicker.accept = "image/*";
+
+filePicker.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      // Fit the image to the canvas
+      const scale = Math.min(
+        drawingCanvas.width / img.width,
+        drawingCanvas.height / img.height,
+      );
+      const x = drawingCanvas.width / 2 - (img.width / 2) * scale;
+      const y = drawingCanvas.height / 2 - (img.height / 2) * scale;
+      ctxDraw.drawImage(img, x, y, img.width * scale, img.height * scale);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+document.getElementById("add-bg-image-button").addEventListener("click", () => {
+  filePicker.click();
+});
