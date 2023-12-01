@@ -1,0 +1,96 @@
+/* Overall layout of the card list */
+.app-card-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Individual card styling */
+.app-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 256px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* semi-transparent white for readability */
+  backdrop-filter: blur(
+    5px
+  ); /* blurring any background for better readability */
+  /* Placeholder for future background image */
+  background-size: cover;
+  background-position: center;
+}
+
+/* Styling for the anchor tags (links) */
+.app-card a {
+  color: #333;
+  text-decoration: none;
+  font-size: 20px;
+  margin-bottom: 15px;
+  z-index: 1; /* Ensure it's above the background */
+}
+
+/* Styling for the button row */
+.button-row {
+  display: flex;
+  gap: 10px; /* spacing between buttons */
+  width: 100%; /* Take full width of the card */
+  justify-content: center; /* Center buttons in the row */
+  align-items: center; /* Center buttons in the row */
+}
+
+/* Styling for the buttons */
+.app-card button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.app-card button:hover {
+  background-color: #0056b3;
+}
+
+.app-card button:active {
+  background-color: #00408b;
+}
+
+/* Base styling for the status indicator */
+.status-indicator {
+  width: 15px; /* size of the indicator */
+  height: 15px; /* size of the indicator */
+  border-radius: 50%; /* make it round */
+  display: inline-block; /* allows it to sit inline with other elements */
+  background-color: white; /* default color */
+}
+
+/* Color styling for each status */
+.running {
+  background-color: green; /* green for running */
+}
+
+.booting {
+  background-color: yellow; /* yellow for booting */
+}
+
+.stopped {
+  background-color: gray; /* gray for stopped */
+}
+
+.error {
+  background-color: red; /* red for error */
+}

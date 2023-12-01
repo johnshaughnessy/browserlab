@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "Building the client."
 docker run -it --rm \
     --name browserlab-chat \
@@ -8,12 +9,12 @@ docker run -it --rm \
 
 echo "Running the server."
 docker run -it --rm \
-    --name browserlab-chat-server \
+    --name browserlab-chat \
     --gpus all \
     -v "$PWD"/server:/app/server \
     -v "$PWD"/client:/app/client \
     -v "$PWD"/huggingface-cache:/root/.cache/huggingface \
     -w /app/ \
     -p 8006:8006 \
-    browserlab-chat-server \
+    browserlab-chat \
     python3 server/server.py

@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "Installing client dependencies."
 
 docker run -it --rm \
@@ -18,4 +19,4 @@ docker run -it --rm \
 
 echo "Building the server."
 
-docker build -f Dockerfile.chat-server -t browserlab-chat-server .
+docker build -f Dockerfile.chat -t browserlab-chat .
