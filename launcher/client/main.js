@@ -102,4 +102,11 @@ async function updateStatus() {
   websocketStatusIndicator.classList.add(response.websocket);
 }
 
-setInterval(updateStatus, 300);
+let statusInterval = setInterval(updateStatus, 300);
+document.addEventListener("blur", () => {
+  clearInterval(statusInterval);
+});
+document.addEventListener("focus", () => {
+  clearInterval(statusInterval);
+  statusInterval = setInterval(updateStatus, 300);
+});
