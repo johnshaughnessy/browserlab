@@ -2,6 +2,8 @@
 
 A simple chat app between a browser client and a python server running inference with an LLM.
 
+![screenshot](./screenshot.png)
+
 Client: Javascript (in browser)
 Server: Python web socket server, LLM
 
