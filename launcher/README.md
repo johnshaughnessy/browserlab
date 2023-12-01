@@ -2,6 +2,8 @@
 
 An app that will launch the other browserlab apps.
 
+![screenshot](./screenshot.png)
+
 Client: Javascript
 Server: Python / Flask / Shell
 
