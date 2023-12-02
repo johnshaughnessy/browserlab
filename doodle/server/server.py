@@ -1,6 +1,4 @@
-from diffusers import StableDiffusionPipeline
-from diffusers import StableDiffusionImg2ImgPipeline
-from doodle_diffusion import process_image_with_prompt
+from doodle_diffusion import process_image_with_prompt, process_image_pixelart, init_pipeline, init_pipeline_pixelart
 from flask import Flask, request, send_from_directory, jsonify
 import torch
 import base64
@@ -18,44 +16,57 @@ def check_cuda():
             print(f"Device name: {torch.cuda.get_device_name(0)}")
 
 check_cuda()
+init_pipeline()
+init_pipeline_pixelart()
 
 app = Flask(__name__, static_folder='../client')
 
-# model_id_or_path = "runwayml/stable-diffusion-v1-5"
-model_id_or_path = "CompVis/stable-diffusion-v1-4"
-pipe = StableDiffusionImg2ImgPipeline.from_pretrained(model_id_or_path, torch_dtype=torch.float16)
-pipe = pipe.to("cuda")
+# Global variables
+doodle_settings = {
+    "prompt": "",
+    "strength": 1.75,
+    "guidance_scale": 5,
+    "use_pixelart": False
+}
 
-# pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", use_auth_token=os.getenv('HF_TOKEN'))
-# pipe.to("cuda")
+@app.route('/doodle/settings', methods=['POST'])
+def set_doodle_settings():
+    global doodle_settings
+    data = request.json
+    doodle_settings.update(data)
+    print("Updated doodle settings:", doodle_settings)
+    return jsonify(doodle_settings)
 
-# Global variable to store the prompt
-doodle_prompt = ""
-doodle_strength = 1.75
-doodle_guidance_scale = 5
-
-@app.route('/doodle/strength', methods=['POST'])
-def set_strength():
-    global doodle_strength
-    # Parse doodle_strength as a float, or set it to 1
-    doodle_strength = float(request.data.decode('utf-8')) or 1
-    print("We got strength:", doodle_strength)
-    return jsonify({"strength": doodle_strength})
-
-@app.route('/doodle/guidance_scale', methods=['POST'])
-def set_guidance_scale():
-    global doodle_guidance_scale
-    # Parse doodle_guidance_scale as a float, or set it to 5
-    doodle_guidance_scale = float(request.data.decode('utf-8')) or 5
-    print("We got guidance_scale:", doodle_guidance_scale)
-    return jsonify({"guidance_scale": doodle_guidance_scale})
-
-@app.route('/doodle/prompt', methods=['POST'])
-def set_prompt():
-    global doodle_prompt
-    doodle_prompt = request.data.decode('utf-8')
-    print("We got prompt:", doodle_prompt)
-    return jsonify({"prompt": doodle_prompt})
+# @app.route('/doodle/pixelart', methods=['POST'])
+# def set_use_pixelart():
+    # global doodle_use_pixelart
+    # # Parse doodle_use_pixelart as a boolean, or set it to False
+    # doodle_use_pixelart = bool(request.data.decode('utf-8')) or False
+    # print("We got use_pixelart:", doodle_use_pixelart)
+    # return jsonify({"use_pixelart": doodle_use_pixelart})
+#
+# @app.route('/doodle/strength', methods=['POST'])
+# def set_strength():
+    # global doodle_strength
+    # # Parse doodle_strength as a float, or set it to 1
+    # doodle_strength = float(request.data.decode('utf-8')) or 1
+    # print("We got strength:", doodle_strength)
+    # return jsonify({"strength": doodle_strength})
+#
+# @app.route('/doodle/guidance_scale', methods=['POST'])
+# def set_guidance_scale():
+    # global doodle_guidance_scale
+    # # Parse doodle_guidance_scale as a float, or set it to 5
+    # doodle_guidance_scale = float(request.data.decode('utf-8')) or 5
+    # print("We got guidance_scale:", doodle_guidance_scale)
+    # return jsonify({"guidance_scale": doodle_guidance_scale})
+#
+# @app.route('/doodle/prompt', methods=['POST'])
+# def set_prompt():
+    # global doodle_prompt
+    # doodle_prompt = request.data.decode('utf-8')
+    # print("We got prompt:", doodle_prompt)
+    # return jsonify({"prompt": doodle_prompt})
 
 # @app.route('/doodle/image', methods=['POST'])
 # def get_image():
@@ -75,7 +86,12 @@ def get_image():
         image_data = base64.b64decode(image_data)
 
     # Call the process_image_with_prompt function
-    processed_image_data = process_image_with_prompt(pipe, image_data, doodle_prompt, doodle_strength, doodle_guidance_scale)
+    if doodle_settings["use_pixelart"]:
+        print("Using pixelart!")
+        processed_image_data = process_image_pixelart(image_data, doodle_settings["prompt"], doodle_settings["strength"], doodle_settings["guidance_scale"])
+    else:
+        print("Not using pixelart!")
+        processed_image_data = process_image_with_prompt(image_data, doodle_settings["prompt"], doodle_settings["strength"], doodle_settings["guidance_scale"])
 
     # Return the processed image
     response = app.response_class(processed_image_data, mimetype='image/png')

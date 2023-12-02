@@ -73,39 +73,36 @@ displayCanvas.style.border = "1px solid black";
 
 document.addEventListener("blur", stopDrawing);
 
+// This is a chechbox, so in the HTML it looks like this:
+// <input type="checkbox" id="use-pixelart-input" />
+const usePixelartInput = document.getElementById("use-pixelart-input");
+
+function updateDoodleSettings() {
+  const doodleSettings = {
+    prompt: promptInput.value,
+    strength: parseFloat(strengthInput.value),
+    guidance_scale: parseFloat(guidanceScaleInput.value),
+    use_pixelart: usePixelartInput.checked,
+  };
+
+  return fetch("/doodle/settings", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(doodleSettings),
+  });
+}
+
 let syncTimeout = null;
 async function sync() {
   const img = new Image();
   img.src = drawingCanvas.toDataURL();
 
-  await fetch("/doodle/prompt", {
-    method: "POST",
-    body: promptInput.value,
-  })
+  await updateDoodleSettings()
     .then((res) => res.json())
     .then((data) => {
-      //ctxDisplay.clearRect(0, 0, displayCanvas.width, displayCanvas.height);
-      // Display the prompt on the display canvas
-      ctxDisplay.font = "20px sans-serif";
-      ctxDisplay.fillText(data.prompt, 10, 20);
-    });
-
-  await fetch("/doodle/strength", {
-    method: "POST",
-    body: strengthInput.value,
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data.strength);
-    });
-
-  await fetch("/doodle/guidance_scale", {
-    method: "POST",
-    body: guidanceScaleInput.value,
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data.guidance_scale);
+      console.log("Updated doodle settings:", data);
     });
 
   // POST to /doodle/image
