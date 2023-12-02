@@ -13,7 +13,18 @@ RUN python3 -m pip install --upgrade pip
 RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu123
 
 RUN pip install flask diffusers transformers scipy
-RUN pip install accelerate
+RUN pip install accelerate peft
+
+# ------------- for stable-diffusion-xl-base-1.0 -------------
+# https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0
+RUN pip install invisible_watermark transformers accelerate safetensors
+RUN apt-get update && \
+    apt-get install -y libgl1-mesa-glx && \
+    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y libglib2.0-0 && \
+    rm -rf /var/lib/apt/lists/*
+# ------------- end section for stable-diffusion-base-1.0 -------------
 
 WORKDIR /app/server/
 

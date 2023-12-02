@@ -117,7 +117,15 @@ async function sync() {
   await response.blob().then((blob) => {
     const img = new Image();
     img.onload = () => {
-      ctxDisplay.drawImage(img, 0, 0);
+      // Fit the image to the canvas
+      const scale = Math.min(
+        displayCanvas.width / img.width,
+        displayCanvas.height / img.height,
+      );
+      const x = displayCanvas.width / 2 - (img.width / 2) * scale;
+      const y = displayCanvas.height / 2 - (img.height / 2) * scale;
+      ctxDisplay.clearRect(0, 0, displayCanvas.width, displayCanvas.height);
+      ctxDisplay.drawImage(img, x, y, img.width * scale, img.height * scale);
     };
     img.src = URL.createObjectURL(blob);
     // Add the image to the page so that it loads
