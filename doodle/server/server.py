@@ -1,4 +1,4 @@
-from doodle_diffusion import process_image_with_prompt, process_image_pixelart, init_pipeline, init_pipeline_pixelart
+from doodle_diffusion import process_image_with_prompt, init_pipeline
 from flask import Flask, request, send_from_directory, jsonify
 import torch
 import base64
@@ -17,7 +17,6 @@ def check_cuda():
 
 check_cuda()
 init_pipeline()
-#init_pipeline_pixelart()
 
 app = Flask(__name__, static_folder='../client')
 
@@ -26,7 +25,7 @@ doodle_settings = {
     "prompt": "",
     "strength": 1.75,
     "guidance_scale": 5,
-    "use_pixelart": False
+    # "use_pixelart": False
 }
 
 @app.route('/doodle/settings', methods=['POST'])
@@ -47,13 +46,7 @@ def get_image():
         image_data = image_data.split('data:image/png;base64,')[1]
         image_data = base64.b64decode(image_data)
 
-    # Call the process_image_with_prompt function
-    if False:
-        print("Using pixelart!")
-        processed_image_data = process_image_pixelart(image_data, doodle_settings["prompt"], doodle_settings["strength"], doodle_settings["guidance_scale"])
-    else:
-        print("Not using pixelart!")
-        processed_image_data = process_image_with_prompt(image_data, doodle_settings["prompt"], doodle_settings["strength"], doodle_settings["guidance_scale"])
+    processed_image_data = process_image_with_prompt(image_data, doodle_settings["prompt"], doodle_settings["strength"], doodle_settings["guidance_scale"])
 
     # Return the processed image
     response = app.response_class(processed_image_data, mimetype='image/png')
