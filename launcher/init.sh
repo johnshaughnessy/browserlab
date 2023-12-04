@@ -3,6 +3,15 @@ echo ""
 echo "Browserlab Launcher Initialization"
 echo ""
 
+if [ ! -f token ]; then
+    echo "***Error***"
+    echo "Hugging Face API token not found. See README.md."
+    exit 1
+fi
+
+cp token ../chat/token
+cp token ../doodle/token
+
 echo "***Warning***"
 echo "This installation makes changes on the host, NOT inside a docker container."
 echo "Are you sure you want to continue? (y/n)"

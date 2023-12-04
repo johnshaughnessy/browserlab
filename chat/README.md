@@ -9,6 +9,8 @@ Server: Python web socket server, LLM
 
 # Usage
 
+0. Save a [hugging face access token](https://huggingface.co/settings/tokens) to a file called `token` in this directory so that you can download the model.
+
 1. Run `./init.sh` to
 
 - Get client dependencies

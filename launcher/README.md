@@ -9,5 +9,6 @@ Server: Python / Flask / Shell
 
 # Usage
 
-Run `./init.sh` to build the server.
-Run `./run.sh` to run it.
+0. Save a [hugging face access token](https://huggingface.co/settings/tokens) to a file called `token` in this directory.
+1. Run `./init.sh` to build the server.
+2. Run `./run.sh` to run it.

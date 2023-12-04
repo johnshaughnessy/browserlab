@@ -11,7 +11,7 @@ Video demos:
 
 ## Setup
 
-0. Get an hugging face access token from https://huggingface.co/settings/tokens so that you can download the model. Save it as a file called `token` in this directory
+0. Save a [hugging face access token](https://huggingface.co/settings/tokens) to a file called `token` in this directory so that you can download the model.
 1. Run `./init.sh` to build the docker image.
 1. Run `./run.sh` to run the docker image.
 1. Open `http://localhost:8001` in your browser.
