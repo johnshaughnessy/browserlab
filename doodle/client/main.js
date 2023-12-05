@@ -64,8 +64,7 @@ function changeCursorSize(e) {
 drawingCanvas.addEventListener("mousedown", startDrawing);
 drawingCanvas.addEventListener("mousemove", onMouseMove);
 drawingCanvas.addEventListener("wheel", changeCursorSize);
-drawingCanvas.addEventListener("mouseup", stopDrawing);
-drawingCanvas.addEventListener("mouseleave", stopDrawing);
+document.addEventListener("mouseup", stopDrawing);
 
 // Give the canvas a border
 drawingCanvas.style.border = "1px solid black";
