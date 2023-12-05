@@ -43,6 +43,11 @@ function onMouseMove(e) {
     cursorX = e.clientX - drawingCanvas.offsetLeft;
     cursorY = e.clientY - drawingCanvas.offsetTop;
 
+    ctxDraw.fillStyle = penColor;
+    ctxDraw.beginPath();
+    ctxDraw.arc(cursorX, cursorY, cursorSize / 2, 0, 2 * Math.PI);
+    ctxDraw.fill();
+
     // Use the pen color and cursor size to draw a line
     ctxDraw.strokeStyle = penColor;
     ctxDraw.lineWidth = cursorSize;
