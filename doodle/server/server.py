@@ -29,6 +29,10 @@ doodle_settings = {
 }
 pipe = None
 
+STYLE_SD14 = 1
+STYLE_PIXELART = 2
+STYLE_FAST_SDXL = 3
+
 @app.route('/doodle/settings', methods=['POST'])
 def set_doodle_settings():
     global doodle_settings
