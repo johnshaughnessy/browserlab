@@ -56,7 +56,7 @@ def message(sid, data):
 
     print("Received message: ", focus, context)
 
-    prompt = f"Please explain the following text in detail:\n\n```\n\n {focus} \n\n```\n\n The context in which the text appeared is:\n\n```\n\n{context}\n\n```\n\n Reply in 5 sentences or less. Be succinct without losing any important information."
+    prompt = f"Explain the following text in detail:\n\n```\n\n {focus} \n\n```\n\n The context in which the text appeared is:\n\n```\n\n{context}\n\n```\n\n Reply in 5 sentences or less. Be succinct without losing any important information. Do not reply with anything preamble like, \"Sure, here is a reply in 5 sentences or less.\" Just reply with the explanation ONLY."
 
     start_time = time.time()
     result = pipe(f"<s>[INST] {prompt} [/INST]")
