@@ -28,7 +28,7 @@ socket.on("error", (error) => {
   console.error(error);
 });
 
-socket.emit("message", JSON.stringify({ text: "hello world!" }));
+//socket.emit("message", JSON.stringify({ text: "hello world!" }));
 
 let fullContext = "";
 
