@@ -49,9 +49,14 @@ def message(sid, data):
     focus = message.get('focus')
     context = message.get('context')
 
+    if focus is None or context is None:
+        print("Error: Received a message where focus or context is None")
+        sio.emit('message', json.dumps("Error: Received a message where focus or context is None"), room=sid)
+        return
+
     print("Received message: ", focus, context)
 
-    prompt = f"Please explain {focus} in detail.\n If it's helpful, the context that I read {focus} in was:\n{context}."
+    prompt = f"Please explain the following text in detail:\n\n```\n\n {focus} \n\n```\n\n The context in which the text appeared is:\n\n```\n\n{context}\n\n```\n\n Reply in 5 sentences or less. Be succinct without losing any important information."
 
     start_time = time.time()
     result = pipe(f"<s>[INST] {prompt} [/INST]")
