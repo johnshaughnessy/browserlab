@@ -1,7 +1,7 @@
 const messageList = document.getElementById("message-list");
 
 async function main() {
-  const replies = await browser.runtime.sendMessage({ action: "read" });
+  const { replies } = await browser.runtime.sendMessage({ action: "read" });
   console.log(replies);
 
   // Empty the message list
@@ -10,9 +10,15 @@ async function main() {
   }
 
   // Iterate backwards through the messages, and add them to the list
-  replies.replies.reverse().forEach((reply) => {
+  replies.reverse().forEach(({ reply, timestamp }) => {
+    // Create a list item composed of both the timestamp and the reply as children
+
     const li = document.createElement("li");
-    li.textContent = reply;
+    li.appendChild(
+      document.createTextNode(new Date(timestamp).toLocaleString()),
+    );
+    li.appendChild(document.createElement("br"));
+    li.appendChild(document.createTextNode(reply));
     messageList.appendChild(li);
   });
 }
