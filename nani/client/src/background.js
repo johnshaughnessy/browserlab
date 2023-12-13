@@ -16,7 +16,8 @@ const replies = [];
 
 socket.on("message", (raw) => {
   // Ignore the message if its length is zero
-  if (raw.length > 0) {
+  if (raw.length === 0) {
+    console.warn("Received empty message.");
     return;
   }
 
@@ -26,7 +27,7 @@ socket.on("message", (raw) => {
   }
 
   console.log("Got reply from server:", raw.substring(0, 50));
-  replies.push(JSON.parse(raw).reply);
+  replies.push({ reply: JSON.parse(raw).reply, timestamp: Date.now() });
 });
 
 socket.on("error", (error) => {

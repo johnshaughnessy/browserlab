@@ -13,7 +13,10 @@ async function main() {
   replies.reverse().forEach(({ reply, timestamp }) => {
     // Create a list item composed of both the timestamp and the reply as children
 
+    console.log("timestamp:", timestamp);
+    console.log("reply:", reply);
     const li = document.createElement("li");
+
     li.appendChild(
       document.createTextNode(new Date(timestamp).toLocaleString()),
     );

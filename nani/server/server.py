@@ -41,7 +41,7 @@ def message(sid, data):
     if pipe is None:
         # log warning and reply with error message
         print("Error: pipe is None")
-        sio.emit('message', json.dumps("Error: pipe is None"), room=sid)
+        # sio.emit('message', json.dumps("Error: pipe is None"), room=sid)
         return
 
     message = json.loads(data)
@@ -51,7 +51,7 @@ def message(sid, data):
 
     if focus is None or context is None:
         print("Error: Received a message where focus or context is None")
-        sio.emit('message', json.dumps("Error: Received a message where focus or context is None"), room=sid)
+        # sio.emit('message', json.dumps("Error: Received a message where focus or context is None"), room=sid)
         return
 
     print("Received message: ", focus, context)
