@@ -9,7 +9,8 @@ async function main() {
     messageList.removeChild(messageList.firstChild);
   }
 
-  replies.replies.forEach((reply) => {
+  // Iterate backwards through the messages, and add them to the list
+  replies.replies.reverse().forEach((reply) => {
     const li = document.createElement("li");
     li.textContent = reply;
     messageList.appendChild(li);

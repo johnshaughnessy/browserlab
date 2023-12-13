@@ -15,6 +15,11 @@ socket.on("disconnect", () => {
 const replies = [];
 
 socket.on("message", (raw) => {
+  // Ignore the message if its length is zero
+  if (raw.length > 0) {
+    return;
+  }
+
   // Limit the number of replies to 10
   if (replies.length > 10) {
     replies.shift();
