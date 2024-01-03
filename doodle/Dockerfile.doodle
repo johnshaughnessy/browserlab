@@ -18,6 +18,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 # ------------- end section for stable-diffusion-base-1.0 -------------
 
+WORKDIR /app
+COPY . .
 WORKDIR /app/server/
 
 CMD python3 server.py
